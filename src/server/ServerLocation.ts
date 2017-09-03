@@ -6,11 +6,12 @@ const HTTP_DEFAULT_PORT = '80'
 
 export class ServerLocation implements Location {
   private history: History
-
   public href: string
 
   constructor(href: string) {
-    this.href = href
+    const { protocol, host, relative } = parseHref(href)
+
+    this.href = protocol ? href : `http://${host}${relative}`
   }
 
   get hash(): string {
