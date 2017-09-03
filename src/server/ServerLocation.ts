@@ -92,7 +92,13 @@ export class ServerLocation implements Location {
   public reload(): void {}
 
   public replace(url: string): void {
-    this.href = url
+    const { host, relative } = parseHref(url)
+
+    if (!host) {
+      this.href = this.host + relative
+    } else {
+      this.href = url
+    }
   }
 
   public toString(): string {
