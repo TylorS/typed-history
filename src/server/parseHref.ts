@@ -41,13 +41,13 @@ export function parseHref(href: string): ParsedHref {
 
   for (let i = 0; i < keys.length; ++i) {
     const key = keys[i]
-    let value = matches[i]
+    let value = matches[i] || ''
 
     if (key === 'search') value = '?' + value
     if (key === 'protocol') value = (value || 'http') + ':'
     if (key === 'hash') value = '#' + value
 
-    parsedHref[key] = value || ''
+    parsedHref[key] = value
   }
 
   return parsedHref
