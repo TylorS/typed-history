@@ -1,0 +1,44 @@
+{
+  "name": "@typed/history",
+  "description": "Functional History API for the browser and node",
+  "repository": "https://github.com/TylorS/typed-history",
+  "version": "0.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "typings": "lib/index.d.ts",
+  "jsnext:main": "lib.es2015/index.js",
+  "module": "lib.es2015/index.js",
+  "author": "Tylor Steinberger <tlsteinberger167@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "167": "0.38.0",
+    "@typed/test": "2.5.0",
+    "@types/node": "8.0.26",
+    "dox": "0.9.0",
+    "glob-expand": "0.2.1",
+    "husky": "0.14.3",
+    "lint-staged": "4.0.4",
+    "prettier": "1.6.1",
+    "typescript": "2.5.2"
+  },
+  "dependencies": {},
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write --print-width 80 --tab-width 2 --no-semi --single-quote --trailing-comma es5 --parser typescript",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "build": "yarn build:commonjs && yarn build:es2015",
+    "build:commonjs": "tsc -P .config/tsconfig.commonjs.json",
+    "build:es2015": "tsc -P .config/tsconfig.es2015.json",
+    "docs": "node .scripts/docs.js",
+    "postversion": "yarn docs && git add README.md && git commit -m 'docs(README): build documentation' && git push origin master --tags && npm publish --access=public",
+    "precommit": "lint-staged",
+    "preversion": "yarn test && yarn build",
+    "release:major": "npm version major -m 'chore(package): v%s'",
+    "release:minor": "npm version minor -m 'chore(package): v%s'",
+    "test:lint": "prettier --write --print-width 80 --tab-width 2 --no-semi --single-quote --trailing-comma es5 --parser typescript 'src/*.ts' 'src/**/*.ts'",
+    "test": "typed-test 'src/*.test.ts' 'src/**/*.test.ts'"
+  }
+}
