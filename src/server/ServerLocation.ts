@@ -92,25 +92,7 @@ export class ServerLocation implements Location {
   public reload(): void {}
 
   public replace(url: string): void {
-    const {
-      hash,
-      host,
-      hostname,
-      href,
-      pathname,
-      port,
-      protocol,
-      search,
-    } = parseHref(url)
-
-    this.hash = hash
-    this.host = host
-    this.hostname = hostname
-    this.href = href
-    this.pathname = pathname
-    this.port = port
-    this.protocol = protocol
-    this.search = search
+    this.href = url
   }
 
   public toString(): string {
