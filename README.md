@@ -1,4 +1,4 @@
-# @typed/history -- 0.0.0
+# @typed/history -- 0.1.0
 
 Functional History API for the browser and node
 
@@ -27,10 +27,9 @@ Returns History.state
 
 ```typescript
 
-export const state: <A extends Record<string, any> = {}>(history: History) => Readonly<A> = prop<
-  History,
-  'state'
->('state')
+export const state: <A extends Record<string, any> = {}>(
+  history: History
+) => Readonly<A> = prop<History, 'state'>('state')
 
 // Interfaces
 export interface Go {
@@ -364,17 +363,22 @@ console.log(parseQueries(location)) // logs => { q: 'hello', lang: 'en' }
 
 ```typescript
 
-export function parseQueries<Queries extends Record<string, string> = {}>(location: Location): Readonly<Queries> {
+export function parseQueries<Queries extends Record<string, string> = {}>(
+  location: Location
+): Readonly<Queries> {
   const { search } = location
   const queries = {} as Queries
 
   if (!search) return queries
 
-  location.search.replace(QUERYSTRING_REGEX, (_: string, name: string, value: string) => {
-    if (name) queries[name] = value
+  location.search.replace(
+    QUERYSTRING_REGEX,
+    (_: string, name: string, value: string) => {
+      if (name) queries[name] = value
 
-    return value
-  })
+      return value
+    }
+  )
 
   return queries
 }
@@ -465,7 +469,13 @@ Pushes a new location into the History stack
 
 ```typescript
 
-export const pushState: StateArity4 = invoker<History, any, string, string, void>(3, 'pushState')
+export const pushState: StateArity4 = invoker<
+  History,
+  any,
+  string,
+  string,
+  void
+>(3, 'pushState')
 
 ```
 
@@ -568,10 +578,13 @@ Replaces the current location into the History stack
 
 ```typescript
 
-export const replaceState: StateArity4 = invoker<History, any, string, string, void>(
-  3,
-  'replaceState'
-)
+export const replaceState: StateArity4 = invoker<
+  History,
+  any,
+  string,
+  string,
+  void
+>(3, 'replaceState')
 
 ```
 
