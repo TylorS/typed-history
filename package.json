@@ -11,7 +11,6 @@
   "author": "Tylor Steinberger <tlsteinberger167@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "167": "0.38.0",
     "@typed/test": "2.5.0",
     "@types/node": "8.0.26",
     "dox": "0.9.0",
@@ -21,7 +20,9 @@
     "prettier": "1.6.1",
     "typescript": "2.5.2"
   },
-  "dependencies": {},
+  "dependencies": {
+    "167": "0.39.0"
+  },
   "lint-staged": {
     "*.ts": [
       "prettier --write --print-width 80 --tab-width 2 --no-semi --single-quote --trailing-comma es5 --parser typescript",
