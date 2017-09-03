@@ -1,4 +1,4 @@
-# @typed/history -- 0.4.0
+# @typed/history -- 0.5.0
 
 Functional History API for the browser and node
 
