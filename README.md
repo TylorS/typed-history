@@ -1,4 +1,4 @@
-# @typed/history -- 0.5.0
+# @typed/history -- 0.6.0
 
 Functional History API for the browser and node
 
@@ -371,14 +371,13 @@ export function parseQueries<Queries extends Record<string, string> = {}>(
 
   if (!search) return queries
 
-  location.search.replace(
-    QUERYSTRING_REGEX,
-    (_: string, name: string, value: string) => {
+  location.search
+    .substring(1)
+    .replace(QUERYSTRING_REGEX, (_: string, name: string, value: string) => {
       if (name) queries[name] = value
 
       return value
-    }
-  )
+    })
 
   return queries
 }
