@@ -1,4 +1,4 @@
-# @typed/history -- 1.0.0
+# @typed/history -- 1.1.0
 
 Functional History API for the browser and node
 
@@ -425,7 +425,7 @@ Goes forward or back a specificed number of locations.
 
 ```typescript
 
-export const go: Go = invoker<History, string, void>(1, 'go')
+export const go: Go = invoker<History, number, void>(1, 'go')
 
 ```
 
@@ -901,8 +901,8 @@ export const state: <A extends Record<string, any> = {}>(
 
 // Interfaces
 export interface Go {
-  (quantity: string, history: History): void
-  (quantity: string): (history: History) => void
+  (quantity: number, history: History): void
+  (quantity: number): (history: History) => void
 }
 
 export interface StateArity4 {
