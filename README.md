@@ -13,58 +13,6 @@ npm install --save @typed/history
 
 All functions are curried!
 
-#### (location: History): any
-
-<p>
-
-Returns History.state
-
-</p>
-
-
-<details>
-<summary>See the code</summary>
-
-```typescript
-
-export const state: <A extends Record<string, any> = {}>(
-  history: History
-) => Readonly<A> = prop<History, 'state'>('state')
-
-// Interfaces
-export interface Go {
-  (quantity: string, history: History): void
-  (quantity: string): (history: History) => void
-}
-
-export interface StateArity4 {
-  (state: any, title: string | null, url: string, history: History): void
-  (state: any, title: string | null, url: string): StateArity1
-  (state: any, title: string | null): StateArity2
-  (state: any): StateArity3
-}
-
-export interface StateArity3 {
-  (title: string | null, url: string, history: History): void
-  (title: string | null, url: string): StateArity1
-  (title: string | null): StateArity2
-}
-
-export interface StateArity2 {
-  (url: string, history: History): void
-  (url: string): StateArity1
-}
-
-export interface StateArity1 {
-  (history: History): void
-}
-
-```
-
-</details>
-<hr />
-
-
 #### Env
 
 <p>
@@ -926,6 +874,58 @@ Returns location.search
 ```typescript
 
 export const search = prop<Location, 'search'>('search')
+
+```
+
+</details>
+<hr />
+
+
+#### state(location: History): any
+
+<p>
+
+Returns History.state
+
+</p>
+
+
+<details>
+<summary>See the code</summary>
+
+```typescript
+
+export const state: <A extends Record<string, any> = {}>(
+  history: History
+) => Readonly<A> = prop<History, 'state'>('state')
+
+// Interfaces
+export interface Go {
+  (quantity: string, history: History): void
+  (quantity: string): (history: History) => void
+}
+
+export interface StateArity4 {
+  (state: any, title: string | null, url: string, history: History): void
+  (state: any, title: string | null, url: string): StateArity1
+  (state: any, title: string | null): StateArity2
+  (state: any): StateArity3
+}
+
+export interface StateArity3 {
+  (title: string | null, url: string, history: History): void
+  (title: string | null, url: string): StateArity1
+  (title: string | null): StateArity2
+}
+
+export interface StateArity2 {
+  (url: string, history: History): void
+  (url: string): StateArity1
+}
+
+export interface StateArity1 {
+  (history: History): void
+}
 
 ```
 

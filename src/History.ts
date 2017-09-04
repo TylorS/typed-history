@@ -45,7 +45,7 @@ export const replaceState: StateArity4 = invoker<
 
 /**
  * Returns History.state
- * @name (location: History): any
+ * @name state(location: History): any
  */
 export const state: <A extends Record<string, any> = {}>(
   history: History
