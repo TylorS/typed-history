@@ -1,4 +1,4 @@
-# @typed/history -- 0.8.0
+# @typed/history -- 0.9.0
 
 Functional History API for the browser and node
 
@@ -160,7 +160,8 @@ console.log(href(location)) // logs => https://my.example.com/other
 ```typescript
 
 export function createEnv(href: string = '/'): Env {
-  if (location && history) return { location, history }
+  if (typeof location !== 'undefined' && typeof history !== 'undefined')
+    return { location, history }
 
   const serverLocation = new ServerLocation(href)
   const serverHistory = new ServerHistory(serverLocation)
