@@ -2,7 +2,7 @@
   "name": "@typed/history",
   "description": "Functional History API for the browser and node",
   "repository": "https://github.com/TylorS/typed-history",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "typings": "lib/index.d.ts",
