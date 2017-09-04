@@ -14,7 +14,7 @@ export const forward = invoker<History, void>(0, 'forward')
  * Goes forward or back a specificed number of locations.
  * @name go(quantity: number, history: History): void
  */
-export const go: Go = invoker<History, string, void>(1, 'go')
+export const go: Go = invoker<History, number, void>(1, 'go')
 /**
  * Pushes a new location into the History stack
  * @name pushState(state: any, title: string, url: string, history: History): void
@@ -53,8 +53,8 @@ export const state: <A extends Record<string, any> = {}>(
 
 // Interfaces
 export interface Go {
-  (quantity: string, history: History): void
-  (quantity: string): (history: History) => void
+  (quantity: number, history: History): void
+  (quantity: number): (history: History) => void
 }
 
 export interface StateArity4 {
