@@ -9,7 +9,7 @@ export const test: Test = describe(`creatEnv`, [
 
       history.pushState(null, null, '/example')
 
-      equal('www.example.com/example', location.href)
+      equal('https://www.example.com/example', location.href)
       equal('https:', location.protocol)
       equal('443', location.port)
     }),

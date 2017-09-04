@@ -62,7 +62,7 @@ export class ServerLocation implements Location {
   }
 
   get protocol(): string {
-    return parseValue('protocol', this)
+    return parseValue('protocol', this) || 'http:'
   }
 
   set protocol(value: string) {
@@ -95,11 +95,11 @@ export class ServerLocation implements Location {
   public replace(url: string): void {
     const { host, relative } = parseHref(url)
 
-    if (!host) {
-      this.href = this.host + relative
-    } else {
-      this.href = url
-    }
+    let href = host ? url : this.host + relative
+
+    if (this.protocol) href = this.protocol + '//' + href
+
+    this.href = href
   }
 
   public toString(): string {

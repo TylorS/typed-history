@@ -44,7 +44,8 @@ export function parseHref(href: string): ParsedHref {
     let value = matches[i] || ''
 
     if (key === 'search' && value) value = '?' + value
-    if (key === 'protocol') value = (value || 'http') + ':'
+    if (key === 'protocol' && value && !value.endsWith(':')) value = value + ':'
+
     if (key === 'hash') value = '#' + value
 
     parsedHref[key] = value
