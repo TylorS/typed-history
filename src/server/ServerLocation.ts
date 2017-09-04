@@ -121,7 +121,7 @@ function replace(
 ) {
   const { href } = location
 
-  const currentValue = parseHref(href)[key] as string
+  const currentValue = parseHref(href)[key]
 
   const updateHref = href.replace(currentValue, value)
 

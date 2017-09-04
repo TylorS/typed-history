@@ -18,7 +18,8 @@ import { ServerHistory, ServerLocation } from './server'
  * console.log(href(location)) // logs => https://my.example.com/other
  */
 export function createEnv(href: string = '/'): Env {
-  if (location && history) return { location, history }
+  if (typeof location !== 'undefined' && typeof history !== 'undefined')
+    return { location, history }
 
   const serverLocation = new ServerLocation(href)
   const serverHistory = new ServerHistory(serverLocation)
