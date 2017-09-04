@@ -4,6 +4,10 @@ const HTTPS_PROTOCOL = 'https:'
 const HTTPS_DEFAULT_PORT = '443'
 const HTTP_DEFAULT_PORT = '80'
 
+/**
+ * An in-memory implementation of `Location`.
+ * @name ServerLocation
+ */
 export class ServerLocation implements Location {
   private history: History
   public href: string

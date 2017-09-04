@@ -1,5 +1,10 @@
 const HREF_REGEX = /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/
 
+/**
+ * ParsedHref JSON data structure
+ * @name ParsedHref
+ * @type
+ */
 export type ParsedHref = {
   readonly href: string
   readonly protocol: string
@@ -17,23 +22,10 @@ export type ParsedHref = {
   readonly hash: string
 }
 
-const keys: ReadonlyArray<keyof ParsedHref> = [
-  'href',
-  'protocol',
-  'host',
-  'userInfo',
-  'username',
-  'password',
-  'hostname',
-  'port',
-  'relative',
-  'pathname',
-  'directory',
-  'file',
-  'search',
-  'hash',
-]
-
+/**
+ * Parses an href into JSON.
+ * @name parseHref(href: string): ParsedHref
+ */
 export function parseHref(href: string): ParsedHref {
   const matches = HREF_REGEX.exec(href)
 
@@ -53,3 +45,20 @@ export function parseHref(href: string): ParsedHref {
 
   return parsedHref
 }
+
+const keys: ReadonlyArray<keyof ParsedHref> = [
+  'href',
+  'protocol',
+  'host',
+  'userInfo',
+  'username',
+  'password',
+  'hostname',
+  'port',
+  'relative',
+  'pathname',
+  'directory',
+  'file',
+  'search',
+  'hash',
+]

@@ -1,3 +1,7 @@
+/**
+ * An implementation of the `History` interface.
+ * @name ServerHistory
+ */
 export class ServerHistory implements History {
   // Does not affect behavior
   public scrollRestoration: ScrollRestoration = 'auto'
