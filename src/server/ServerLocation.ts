@@ -13,9 +13,7 @@ export class ServerLocation implements Location {
   public href: string
 
   constructor(href: string) {
-    const { protocol, host, relative } = parseHref(href)
-
-    this.href = protocol ? href : `http://${host}${relative}`
+    this.replace(href)
   }
 
   get hash(): string {
@@ -97,11 +95,14 @@ export class ServerLocation implements Location {
   public reload(): void {}
 
   public replace(url: string): void {
-    const { host, relative } = parseHref(url)
+    let { href, host, relative } = parseHref(url)
 
-    let href = host ? url : this.host + relative
+    if (this.host && !host) href = this.host + href
 
-    if (this.protocol) href = this.protocol + '//' + href
+    const { protocol } = parseHref(href)
+
+    if (href !== relative && this.protocol && !protocol)
+      href = this.protocol + '//' + href
 
     this.href = href
   }

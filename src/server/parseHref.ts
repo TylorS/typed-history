@@ -31,7 +31,7 @@ export function parseHref(href: string): ParsedHref {
 
   const parsedHref = {} as Record<keyof ParsedHref, string>
 
-  for (let i = 0; i < keys.length; ++i) {
+  for (let i = 0; i < keyCount; ++i) {
     const key = keys[i]
     let value = matches[i] || ''
 
@@ -62,3 +62,5 @@ const keys: ReadonlyArray<keyof ParsedHref> = [
   'search',
   'hash',
 ]
+
+const keyCount = keys.length

@@ -7,17 +7,17 @@ import { ServerHistory, ServerLocation } from './server'
  * and `window.location` are simply returned.
  * @name createEnv(href: string = '/'): Env
  * @example
- * import { createEnv, href, pushState } from '@typed/history'
+ * import { createEnv, href, pushHref } from '@typed/history'
  * 
  * const { history, location } = createEnv('https://my.example.com/')
  *
  * console.log(href(location)) // logs => https://my.example.com/
  * 
- * pushState(null, null, 'https://my.example.com/other')
+ * pushHref('https://my.example.com/other', history)
  * 
  * console.log(href(location)) // logs => https://my.example.com/other
  */
-export function createEnv(href: string = '/'): Env {
+export function createEnv(href: Href = '/'): Env {
   if (typeof location !== 'undefined' && typeof history !== 'undefined')
     return { location, history }
 
@@ -32,8 +32,15 @@ export function createEnv(href: string = '/'): Env {
 }
 
 /**
- * A collection of implementation of `Location` and `History`.
+ * A type-alias to represent strings that are HREFs.
+ * @name Href
+ * @type
+ */
+export type Href = string
+
+/**
+ * Implementations of `Location` and `History`.
  * @name Env
  * @type
  */
-export type Env = { readonly location: Location; readonly history: History }
+export type Env = Readonly<{ location: Location; history: History }>

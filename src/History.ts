@@ -1,5 +1,7 @@
 import { invoker, prop } from '167'
 
+import { Href } from './createEnv'
+
 /**
  * Goes back to the previous location
  * @name back(history: History): void
@@ -17,29 +19,26 @@ export const forward = invoker<History, void>(0, 'forward')
 export const go: Go = invoker<History, number, void>(1, 'go')
 /**
  * Pushes a new location into the History stack
- * @name pushState(state: any, title: string, url: string, history: History): void
+ * @name pushState(state: any, title: string, href: string, history: History): void
  */
-export const pushState: StateArity4 = invoker<
-  History,
-  any,
-  string,
-  string,
-  void
->(3, 'pushState')
+export const pushState: StateArity4 = invoker<History, any, string, Href, void>(
+  3,
+  'pushState'
+)
 /**
- * Pushes a URL to the History statck
- * @name pushUrl(url: string, history: History): void
+ * Pushes an HREF to the History statck
+ * @name pushHref(href: Href, history: History): void
  */
-export const pushUrl: StateArity2 = pushState({}, '')
+export const pushHref: StateArity2 = pushState({}, '')
 /**
  * Replaces the current location into the History stack
- * @name replaceState(state: any, title: string, url: string, history: History): void
+ * @name replaceState(state: any, title: string, href: Href, history: History): void
  */
 export const replaceState: StateArity4 = invoker<
   History,
   any,
   string,
-  string,
+  Href,
   void
 >(3, 'replaceState')
 
@@ -52,29 +51,29 @@ export const state: <A extends Record<string, any> = {}>(
 ) => Readonly<A> = prop<History, 'state'>('state')
 
 // Interfaces
-export interface Go {
+export type Go = {
   (quantity: number, history: History): void
   (quantity: number): (history: History) => void
 }
 
-export interface StateArity4 {
-  (state: any, title: string | null, url: string, history: History): void
-  (state: any, title: string | null, url: string): StateArity1
+export type StateArity4 = {
+  (state: any, title: string | null, href: Href, history: History): void
+  (state: any, title: string | null, href: Href): StateArity1
   (state: any, title: string | null): StateArity2
   (state: any): StateArity3
 }
 
-export interface StateArity3 {
-  (title: string | null, url: string, history: History): void
-  (title: string | null, url: string): StateArity1
+export type StateArity3 = {
+  (title: string | null, href: Href, history: History): void
+  (title: string | null, href: Href): StateArity1
   (title: string | null): StateArity2
 }
 
-export interface StateArity2 {
-  (url: string, history: History): void
-  (url: string): StateArity1
+export type StateArity2 = {
+  (href: Href, history: History): void
+  (href: Href): StateArity1
 }
 
-export interface StateArity1 {
+export type StateArity1 = {
   (history: History): void
 }

@@ -51,6 +51,7 @@ export const search = prop<Location, 'search'>('search')
  * @name assign(url: string, location: Location): void
  */
 export const assign: Assign = invoker<Location, string, void>(1, 'assign')
+
 /**
  * Reloads the current resource. This has no behavior if it is detected you are
  * not inside the browser.
@@ -67,12 +68,12 @@ export const reload = invoker<Location, void>(0, 'reload')
 export const replace: Replace = invoker<Location, string, void>(1, 'replace')
 
 // Interfaces
-export interface Assign {
+export type Assign = {
   (url: string, location: Location): void
   (url: string): (location: Location) => void
 }
 
-export interface Replace {
+export type Replace = {
   (url: string, location: Location): void
   (url: string): (location: Location) => void
 }

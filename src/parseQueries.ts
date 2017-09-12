@@ -22,7 +22,7 @@ export function parseQueries<Queries extends Record<string, string> = {}>(
 
   if (!search) return queries
 
-  location.search
+  search
     .substring(1)
     .replace(QUERYSTRING_REGEX, (_: string, name: string, value: string) => {
       if (name) queries[name] = value
