@@ -1,4 +1,4 @@
-# @typed/history -- 1.1.0
+# @typed/history -- 2.0.0
 
 Functional History API for the browser and node
 
@@ -17,14 +17,30 @@ All functions are curried!
 
 <p>
 
-A collection of implementation of `Location` and `History`.
+Implementations of `Location` and `History`.
 
 </p>
 
 
 ```typescript
 
-export type Env = { readonly location: Location; readonly history: History }
+export type Env = Readonly<{ location: Location; history: History }>
+
+```
+
+
+#### Href
+
+<p>
+
+A type-alias to represent strings that are HREFs.
+
+</p>
+
+
+```typescript
+
+export type Href = string
 
 ```
 
@@ -162,9 +178,7 @@ export class ServerLocation implements Location {
   public href: string
 
   constructor(href: string) {
-    const { protocol, host, relative } = parseHref(href)
-
-    this.href = protocol ? href : `http://${host}${relative}`
+    this.replace(href)
   }
 
   get hash(): string {
@@ -246,11 +260,14 @@ export class ServerLocation implements Location {
   public reload(): void {}
 
   public replace(url: string): void {
-    const { host, relative } = parseHref(url)
+    let { href, host, relative } = parseHref(url)
 
-    let href = host ? url : this.host + relative
+    if (this.host && !host) href = this.host + href
 
-    if (this.protocol) href = this.protocol + '//' + href
+    const { protocol } = parseHref(href)
+
+    if (href !== relative && this.protocol && !protocol)
+      href = this.protocol + '//' + href
 
     this.href = href
   }
@@ -351,13 +368,13 @@ and `window.location` are simply returned.
   <summary>See an example</summary>
   
 ```typescript
-import { createEnv, href, pushState } from '@typed/history'
+import { createEnv, href, pushHref } from '@typed/history'
 
 const { history, location } = createEnv('https://my.example.com/')
 
 console.log(href(location)) // logs => https://my.example.com/
 
-pushState(null, null, 'https://my.example.com/other')
+pushHref('https://my.example.com/other', history)
 
 console.log(href(location)) // logs => https://my.example.com/other
 ```
@@ -369,7 +386,7 @@ console.log(href(location)) // logs => https://my.example.com/other
 
 ```typescript
 
-export function createEnv(href: string = '/'): Env {
+export function createEnv(href: Href = '/'): Env {
   if (typeof location !== 'undefined' && typeof history !== 'undefined')
     return { location, history }
 
@@ -562,7 +579,7 @@ export function parseHref(href: string): ParsedHref {
 
   const parsedHref = {} as Record<keyof ParsedHref, string>
 
-  for (let i = 0; i < keys.length; ++i) {
+  for (let i = 0; i < keyCount; ++i) {
     const key = keys[i]
     let value = matches[i] || ''
 
@@ -593,6 +610,8 @@ const keys: ReadonlyArray<keyof ParsedHref> = [
   'search',
   'hash',
 ]
+
+const keyCount = keys.length
 
 ```
 
@@ -639,7 +658,7 @@ export function parseQueries<Queries extends Record<string, string> = {}>(
 
   if (!search) return queries
 
-  location.search
+  search
     .substring(1)
     .replace(QUERYSTRING_REGEX, (_: string, name: string, value: string) => {
       if (name) queries[name] = value
@@ -722,7 +741,29 @@ export const protocol = prop<Location, 'protocol'>('protocol')
 <hr />
 
 
-#### pushState(state: any, title: string, url: string, history: History): void
+#### pushHref(href: Href, history: History): void
+
+<p>
+
+Pushes an HREF to the History statck
+
+</p>
+
+
+<details>
+<summary>See the code</summary>
+
+```typescript
+
+export const pushHref: StateArity2 = pushState({}, '')
+
+```
+
+</details>
+<hr />
+
+
+#### pushState(state: any, title: string, href: string, history: History): void
 
 <p>
 
@@ -736,35 +777,10 @@ Pushes a new location into the History stack
 
 ```typescript
 
-export const pushState: StateArity4 = invoker<
-  History,
-  any,
-  string,
-  string,
-  void
->(3, 'pushState')
-
-```
-
-</details>
-<hr />
-
-
-#### pushUrl(url: string, history: History): void
-
-<p>
-
-Pushes a URL to the History statck
-
-</p>
-
-
-<details>
-<summary>See the code</summary>
-
-```typescript
-
-export const pushUrl: StateArity2 = pushState({}, '')
+export const pushState: StateArity4 = invoker<History, any, string, Href, void>(
+  3,
+  'pushState'
+)
 
 ```
 
@@ -815,12 +831,12 @@ use the back button to navigate to it.
 export const replace: Replace = invoker<Location, string, void>(1, 'replace')
 
 // Interfaces
-export interface Assign {
+export type Assign = {
   (url: string, location: Location): void
   (url: string): (location: Location) => void
 }
 
-export interface Replace {
+export type Replace = {
   (url: string, location: Location): void
   (url: string): (location: Location) => void
 }
@@ -831,7 +847,7 @@ export interface Replace {
 <hr />
 
 
-#### replaceState(state: any, title: string, url: string, history: History): void
+#### replaceState(state: any, title: string, href: Href, history: History): void
 
 <p>
 
@@ -849,7 +865,7 @@ export const replaceState: StateArity4 = invoker<
   History,
   any,
   string,
-  string,
+  Href,
   void
 >(3, 'replaceState')
 
@@ -900,30 +916,30 @@ export const state: <A extends Record<string, any> = {}>(
 ) => Readonly<A> = prop<History, 'state'>('state')
 
 // Interfaces
-export interface Go {
+export type Go = {
   (quantity: number, history: History): void
   (quantity: number): (history: History) => void
 }
 
-export interface StateArity4 {
-  (state: any, title: string | null, url: string, history: History): void
-  (state: any, title: string | null, url: string): StateArity1
+export type StateArity4 = {
+  (state: any, title: string | null, href: Href, history: History): void
+  (state: any, title: string | null, href: Href): StateArity1
   (state: any, title: string | null): StateArity2
   (state: any): StateArity3
 }
 
-export interface StateArity3 {
-  (title: string | null, url: string, history: History): void
-  (title: string | null, url: string): StateArity1
+export type StateArity3 = {
+  (title: string | null, href: Href, history: History): void
+  (title: string | null, href: Href): StateArity1
   (title: string | null): StateArity2
 }
 
-export interface StateArity2 {
-  (url: string, history: History): void
-  (url: string): StateArity1
+export type StateArity2 = {
+  (href: Href, history: History): void
+  (href: Href): StateArity1
 }
 
-export interface StateArity1 {
+export type StateArity1 = {
   (history: History): void
 }
 
