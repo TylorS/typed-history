@@ -18,7 +18,7 @@
     "husky": "0.14.3",
     "lint-staged": "4.0.4",
     "prettier": "1.6.1",
-    "typescript": "2.5.2"
+    "typescript": "2.6.1"
   },
   "dependencies": {
     "167": "0.39.0"
